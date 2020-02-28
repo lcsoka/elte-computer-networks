@@ -46,7 +46,7 @@ def traceroute(host):
     elif platform.system() == 'Linux':
         trace_arg = '-m'
 
-    p = subprocess.Popen([trace_cmd, trace_arg, "3", host], stdout=subprocess.PIPE)
+    p = subprocess.Popen([trace_cmd, trace_arg, "30", host], stdout=subprocess.PIPE)
     return process_data((host, p.communicate()[0].decode('utf-8')))
 
 def create_json(data_name, data):
@@ -80,7 +80,7 @@ with open(sys.argv[1], "r") as f:
     host_list = map(get_host,(first_n(f,N) + last_n(f,N)))
     print("List parsed")
     run_ping_task(host_list,N)
-    
+
     run_traceroute_task(host_list,N)
   
     print("DONE")
