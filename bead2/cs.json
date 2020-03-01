@@ -69,6 +69,12 @@
                 "end-time": 10,
                 "end-points": ["D", "C"],
                 "demand": 10.0
+            },
+            {
+                "start-time": 7,
+                "end-time": 10,
+                "end-points": ["A", "C"],
+                "demand": 10.0
             }
         ]
     }
