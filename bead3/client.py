@@ -47,9 +47,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         elif (response == b'Y'):
             print("WIN!")
             numberFound = True
+            break
         elif (response == b'K' or response == b'V'):
             print("LOST!")
             numberFound = True
+            break
         sleepTime = random.randint(1, 2)
         print("Waiting {0}s...".format(sleepTime))
         time.sleep(sleepTime)

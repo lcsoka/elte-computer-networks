@@ -21,7 +21,8 @@ socks.append(srv)
 
 
 alreadyFound = False
-while True:
+running = True
+while running:
     readable, writeable, err = select.select(socks, [], [], 0)
     for s in readable:
         if s == srv:
@@ -43,8 +44,6 @@ while True:
                             operator = msg[0]
                             number = msg[1]
                             responseList = ['',0]
-
-                            print("Already found: " + str(alreadyFound))
 
                             if(alreadyFound):
                                 responseList[0] = b'V'
@@ -81,3 +80,11 @@ while True:
                 print("Client disconnected")
                 socks.remove(s)
                 s.close()
+
+                if(len(socks) == 1):
+                    # randomNumber = random.randint(0,100)
+                    # print("New number: {0}".format(randomNumber))
+                    # alreadyFound = False
+                    running = False
+                    socks.remove(srv)
+                    srv.close()
