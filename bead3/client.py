@@ -3,68 +3,21 @@ import struct
 import math
 import random
 import time 
+import sys
 
 packer = struct.Struct('1s I')
 
-def tryLower(number):
-    msg = (b'<',number)
-    tryNumber(msg)
-
-def tryHigher(number):
-    msg = (b'>',number)
-    tryNumber(msg)
-
-def tryExact(number):
-    msg = (b'=',number)
-    tryNumber(msg)
-
-def tryNumber(msg):
-    msg_packed = packer.pack(*msg)
-
-    sock.sendall(msg_packed)
-    # msg_packed = sock.recv(8)
-    # response = packer.unpack(msg_packed)
-    # handleResponse(msg,response)
-    
-def handleResponse(msgSent, response):
-    print(msgSent[0])
-    print(response[0])
-
-    if response[0] == b'V':
-        return
-
-    # tried lower
-    if msgSent[0] == b'<':
-
-        if response[0] == b'I':
-            maxBound = msgSent[1]
-        else:
-            tryHigher(msgSent[1])
-            return
-    # tried higher
-    elif msgSent[0] == b'>':
-        if response[0] == b'I':
-            minBound = msgSent[1]
-        else:
-            tryLower(msgSent[1])
-            return
-    #tried exact
-    elif msgSent[0] == b'=':
-        return
-
-    tryHigher(math.floor((minBound+maxBound)/2))
-
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-    sock.connect(("127.0.0.1", 5555))
+    sock.connect((sys.argv[1], int(sys.argv[2])))
     minBound = 0
     maxBound = 100
     numberFound = False
     comparators = [b"<",b">"]
 
     while not numberFound:
-        guess = random.randint(minBound, maxBound + 1)
-
-        if (guess == minBound or guess == maxBound or maxBound - minBound <= 1):
+        guess = random.randint(minBound, maxBound)
+        print("minBound: {0}, maxBound: {1}, guess: {2}".format(minBound,maxBound, guess))
+        if (maxBound - minBound <= 1):
             comparison = b'='
         else:
             comparison = random.choice(comparators)
@@ -97,5 +50,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         elif (response == b'K' or response == b'V'):
             print("LOST!")
             numberFound = True
-        time.sleep(1)
+        sleepTime = random.randint(1, 2)
+        print("Waiting {0}s...".format(sleepTime))
+        time.sleep(sleepTime)
     sock.close()
