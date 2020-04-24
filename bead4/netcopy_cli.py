@@ -8,7 +8,7 @@ chsum_srv_ip = sys.argv[3]
 chsum_srv_port = int(sys.argv[4])
 file_id = sys.argv[5]
 file_path = sys.argv[6]
-ttl = 1
+ttl = 60
 
 # connect to server
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
