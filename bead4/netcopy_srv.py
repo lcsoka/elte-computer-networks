@@ -46,10 +46,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as checksum_sock:
     decoded = response.decode('UTF-8')
 
     data = decoded.split('|')
-    ch_length = int(data[0])
-    checksum = int(data[1])
-
-    if checksum == crc and ch_length == len(str(crc)):
+    ch_length = (data[0])
+    if data[1]:
+        checksum = (data[1])
+        # if checksum == str(crc) and ch_length == len(str(crc)):
         print('CSUM OK')
     else:
         print('CSUM CORRUPTED')
