@@ -20,7 +20,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     eof = False
 
     # read bytes and write it to the output
-    with open('test_'+output, 'w') as fout:
+    with open(output, 'w') as fout:
         data = ""
         while not eof:
             buff = cli.recv(1024)
